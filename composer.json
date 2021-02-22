@@ -1,0 +1,15 @@
+{
+    "name": "mthdh/blog",
+    "authors": [
+        {
+            "name": "mthdht",
+            "email": "mthdht@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Blog\\": "src/"
+        }
+    }
+}
