@@ -9,7 +9,7 @@ class Route
 
     public function __construct($path, $handler)
     {
-        // $path = string
+        // validation des paramètres
         if (! is_string($path)) {
             throw new \Exception("the path must be a string");
         }
@@ -20,7 +20,6 @@ class Route
             throw new \Exception("only two element in the handler");
         }
         $this->path = $path;
-        // $handler = array
         $this->handler = $handler;
     }
 

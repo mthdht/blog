@@ -38,7 +38,7 @@ class Router
                 $controller = new $controllerName();
                 
                 call_user_func([$controller, $methodName]);
-                // $controller->$methodName();
+                // $controller->$methodName(); // autre manière de faire
 
             };
         }

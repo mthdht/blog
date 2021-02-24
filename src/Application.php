@@ -3,7 +3,6 @@
 namespace Blog;
 
 use Blog\Routing\Router;
-use Blog\Controllers\HomeController;
 
 class Application 
 {
@@ -17,15 +16,19 @@ class Application
 
     public function run()
     {
-        // actions
-        // router
-            // run(request)
-                // appeler un controller + methode de ce controller
+        
+        // definitions des routes
+        $this->router->get('/',['HomeController', 'home']);
+        $this->router->get('/contact',['HomeController', 'showContact']);
 
-        $this->router->get('/',[HomeController::class, 'home']);
-        $this->router->get('/contact',[HomeController::class, 'showContact']);
+        $this->router->post('/contact',['HomeController', 'HandleContact']);
 
-        $this->router->post('/contact',[HomeController::class, 'HandleContact']);
+        $this->router->get('/login', ['AuthController', 'showLogin']);
+        $this->router->post('/login', ['AuthController', 'login']);
+        
+        $this->router->get('/register', ['AuthController', 'showRegister']);
+        $this->router->post('/register', ['AuthController', 'register']);
+
         
         // executer le router
         $this->router->run();
