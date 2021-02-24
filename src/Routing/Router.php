@@ -2,6 +2,8 @@
 
 namespace Blog\Routing; 
 
+use \Blog\Http\Request;
+
 class Router
 {
     private $routes = [
@@ -30,8 +32,9 @@ class Router
     {
         // dump($this->routes);
         // comparer l'url entrée par l'utilisateur avec tout les chemin de mes routes
-        foreach ($this->routes[$_SERVER["REQUEST_METHOD"]] as $route) {
-            if($_SERVER["REQUEST_URI"] == $route->getPath()) {
+        foreach ($this->routes[Request::method()] as $route) {
+            // TODO: Gérer les paramètres
+            if(Request::uri() == $route->getPath()) {
                 // lancer l'action de la route 
                 $controllerName = "Blog\\Controllers\\" . $route->getController();
                 $methodName = $route->getMethod();
@@ -39,7 +42,6 @@ class Router
                 
                 call_user_func([$controller, $methodName]);
                 // $controller->$methodName(); // autre manière de faire
-
             };
         }
     }

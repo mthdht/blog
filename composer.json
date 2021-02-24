@@ -6,10 +6,12 @@
             "email": "mthdht@gmail.com"
         }
     ],
-    "require": {},
     "autoload": {
         "psr-4": {
             "Blog\\": "src/"
         }
+    },
+    "require": {
+        "filp/whoops": "^2.9"
     }
 }

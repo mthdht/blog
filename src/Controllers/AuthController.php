@@ -2,6 +2,9 @@
 
 namespace Blog\Controllers;
 
+use Blog\Http\Session;
+use Blog\Http\Request;
+
 class AuthController
 {
     public function showLogin()
@@ -13,16 +16,17 @@ class AuthController
     {
         // verifier que l'utilisateur existe avec bonne données
         $manager = new \Blog\Models\UserManager();
-        if ($manager->exists($_POST["email"])) {
-            echo 'l\'utilisateur existe deja';
-            return;
+    
+        // user avec meme email et mdp
+        $user = $manager->getForLogin(Request::input('email'), Request::input('password')); // tableau avec les donnée, soit false
+
+        if($user) {
+            Session::set('user', $user);
+            header("Location: profile");
+            exit();
         }
-
-        // le connecter (session)
-        $user = $manager->getByEmail($_POST["email"]);
-        $_SESSION["user"] = serialize($user);
-
-        // rediriger vers une page
+        // erreur en session
+        // redirige
     }
 
     public function showRegister()
@@ -32,14 +36,32 @@ class AuthController
 
     public function register()
     {
-        // valid
+        // TODO: valider le formulaire
 
         // enregistrement en bdd
         $user = new \Blog\Models\User($_POST);
 
         $manager = new \Blog\Models\UserManager();
-        $manager->save($user);
 
+        // Vérifie si l'utilisateur existe déja en base de donnée
+        if ($manager->exists(Request::input('email'))) {
+            // TODO: Rediriger avec les erreurs
+            echo 'l\'utilisateur existe deja';
+            return;
+        }
+        $manager->save($user);
+        // TODO: message positif en session
+
+        // Connexion de l'utilisateur en session
+        Session::set('user', $user);
+
+        header('Location: /profile');
+        exit();
+    }
+
+    public function logout()
+    {
+        Session::delete('user');
         header('Location: /');
         exit();
     }

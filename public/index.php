@@ -3,13 +3,6 @@
 // création de la session
 session_start();
 
-function dump($a)
-{
-    echo '<pre>';
-    var_dump($a);
-    echo '</pre>';
-}
-
 // autoloading
 require_once '../vendor/autoload.php';
 

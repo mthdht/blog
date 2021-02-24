@@ -11,6 +11,15 @@ class HomeController
         echo "page d'accueil";
     }
 
+    public function profile()
+    {
+        if (\Blog\Http\Session::has('user')) {
+            require VIEWS . 'profile.php';
+        } else {
+            header('Location: /');
+        }
+    }
+
     public function showContact()
     {
         require VIEWS . 'showContact.php';
