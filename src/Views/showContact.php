@@ -7,21 +7,14 @@
     <title>Blog - Contact</title>
 </head>
 <body>
+    <header>
+        <h1>Blog</h1>
+        <ul>
+            <li><a href="">Lien 4</a></li>
+            <li><a href="">Lien 2</a></li>
+            <li><a href="">Lien 33</a></li>
+        </ul>
+    </header>
     <h1>Contact me</h1>
-
-
-    <form action="/contact" method="post">
-        <label for="nom">Nom: </label>
-        <input type="text" name="name" id="nom" value="">
-
-        <br>
-
-        <label for="message">Message</label>
-        <textarea name="message" value="" id="message" cols="30" rows="10"></textarea>
-
-        <br>
-
-        <input type="submit" value="Send">
-    </form>
 </body>
 </html>

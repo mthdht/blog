@@ -23,7 +23,7 @@ class Session
         //     return $_SESSION[$key];
         // }
 
-        return self::has($key) ? unserialize($_SESSION[$key]) : '';
+        return self::has($key) ? unserialize($_SESSION[$key]) : null;
     }
 
     public static function set($key, $value)
@@ -38,9 +38,23 @@ class Session
 
     public static function getError($key)
     {
-        if(isset($_SESSION["errors"])) {
+        if(self::has('errors')) {
             $errors = unserialize($_SESSION["errors"]);
-            return $errors[$key];
+            // return $errors[$key] ?? null;
+
+            // if (isset($errors[$key])) {
+            //     return $errors[$key];
+            // }
+
+            return isset($errors[$key]) ? $errors[$key] : null;
+        }
+    }
+
+    public static function getOld($key)
+    {
+        if (self::has('old')) {
+            $old = unserialize($_SESSION['old']);
+            return $old[$key] ?? null;
         }
     }
 }

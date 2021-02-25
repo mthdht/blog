@@ -11,19 +11,19 @@
 
     <form action="/register" method="post">
         <label for="pseudo">Pseudo</label>
-        <input type="text" name="pseudo" id="pseudo" value="">
+        <input type="text" name="pseudo" id="pseudo" value="<?php echo \Blog\Http\Session::getOld('pseudo');?>">
         <span><?php echo \Blog\Http\Session::getError('pseudo');?></span>
 
         <br>
 
         <label for="email">email</label>
-        <input type="text" name="email" id="email" value="">
+        <input type="text" name="email" id="email" value="<?php echo \Blog\Http\Session::getOld('email');?>">
         <span><?php echo \Blog\Http\Session::getError('email');?></span>
 
         <br>
 
         <label for="password">password</label>
-        <input type="password" name="password" id="password" value="">
+        <input type="password" name="password" id="password" value="<?php echo \Blog\Http\Session::getOld('password');?>">
 
         <br>
 

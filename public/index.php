@@ -15,3 +15,4 @@ $app = new Blog\Application();
 $app->run();
 
 unset($_SESSION['errors']);
+unset($_SESSION['old']);
