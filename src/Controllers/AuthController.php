@@ -6,11 +6,11 @@ use Blog\Http\Session;
 use Blog\Http\Request;
 use Blog\Http\Validator;
 
-class AuthController
+class AuthController extends Controller
 {
     public function showLogin()
     {
-        require VIEWS . 'showLogin.php';
+        $this->view('showLogin', 'layout');
     }
 
     public function login()
@@ -51,7 +51,7 @@ class AuthController
 
     public function showRegister()
     {
-        require VIEWS . 'showRegister.php';
+        $this->view('showRegister', 'layout');
     }
 
     public function register()
@@ -95,12 +95,6 @@ class AuthController
     {
         Session::delete('user');
         header('Location: /');
-        exit();
-    }
-
-    public function redirect($path)
-    {
-        header('Location: '. $path);
         exit();
     }
 }

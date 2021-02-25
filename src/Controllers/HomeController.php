@@ -4,11 +4,13 @@ namespace Blog\Controllers;
 
 use Blog\Models\ContactManager;
 
-class HomeController
+class HomeController extends Controller
 {
     public function home()
     {
         echo "page d'accueil";
+
+        //
     }
 
     public function profile()
@@ -36,5 +38,10 @@ class HomeController
 
         header('Location: /contact');
         exit();
+    }
+
+    public function homeAdmin()
+    {
+        $this->view('homeAdmin', 'layoutAdmin');
     }
 }

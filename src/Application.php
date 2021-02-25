@@ -25,7 +25,7 @@ class Application
     {
         // definitions des routes
         // TODO: Exporter le fichier
-        $this->router->get('/',['HomeController', 'home']);
+        $this->router->get('/admin',['HomeController', 'homeAdmin']);
         $this->router->get('/profile',['HomeController', 'profile']);
 
         $this->router->get('/contact',['HomeController', 'showContact']);
