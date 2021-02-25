@@ -6,6 +6,7 @@ class Validator {
     // attributs (Etat)
     // error []
     private $errors = [];
+    private $data;
 
     public function getErrors()
     {
@@ -14,9 +15,10 @@ class Validator {
 
     // methodes (Comportement)
 
-    public function validate($array)
+    public function validate(Array $validationRules, Array $data)
     {
-        foreach ($array as $field => $rules) {
+        $this->data = $data;
+        foreach ($validationRules as $field => $rules) {
             foreach ($rules as $rule => $value) {
                 if (is_int($rule)) {
                     $this->$value($field);
@@ -25,7 +27,6 @@ class Validator {
                 }
             }
         }
-        $_SESSION["errors"] = $this->errors;
     }
 
     public function hasErrors()
@@ -51,15 +52,15 @@ class Validator {
     public function required($key)
     {
        
-        if (empty($_POST[$key])) {
+        if (empty($this->data[$key])) {
             $this->errors[$key] = "Le champs est requis";
         }
     }
     
     public function min($key, $nb)
     {
-        if (!empty($_POST[$key])) {
-            if (strlen($_POST[$key]) < $nb) {
+        if (!empty($this->data[$key])) {
+            if (strlen($this->data[$key]) < $nb) {
                 $this->errors[$key] = "Le champs doit avoir au moins " . $nb . " caractères";
             }
         }
@@ -67,8 +68,8 @@ class Validator {
     
     public function max($key, $nb)
     {
-        if (!empty($_POST[$key])) {
-            if (!strlen($_POST[$key]) < $nb) {
+        if (!empty($this->data[$key])) {
+            if (!strlen($this->data[$key]) < $nb) {
                 $this->errors[$key] = "Le champs doit avoir au maximum " . $nb . " caractères";
             }
         }
@@ -76,8 +77,8 @@ class Validator {
     
     public function alpha($key)
     {
-        if (!empty($_POST[$key])) {
-            if (!preg_match("#^[a-zA-Z]+$#", $_POST[$key])) {
+        if (!empty($this->data[$key])) {
+            if (!preg_match("#^[a-zA-Z]+$#", $this->data[$key])) {
                 $this->errors[$key] = "Uniquement des lettres";
             }
         }  
@@ -85,8 +86,8 @@ class Validator {
 
     public function numeric($key)
     {
-        if (!empty($_POST[$key])) {
-            if (!preg_match("#^[0-9]+$#", $_POST[$key])) { 
+        if (!empty($this->data[$key])) {
+            if (!preg_match("#^[0-9]+$#", $this->data[$key])) { 
                 $this->errors[$key] = "Uniquement des Chiffres";
             }
         }
@@ -94,8 +95,8 @@ class Validator {
 
     public function alphaNumDash($key)
     {
-        if (!empty($_POST[$key])) {
-            if (!preg_match("#^[a-zA-Z0-9_-]+$#", $_POST[$key])) {
+        if (!empty($this->data[$key])) {
+            if (!preg_match("#^[a-zA-Z0-9_-]+$#", $this->data[$key])) {
                 $this->errors[$key] = "Uniquement des chiffres, lettres et tirets";
             }
         }
@@ -103,13 +104,13 @@ class Validator {
 
     public function email($key)
     {
-        if (!empty($_POST[$key])) {
-            // if (!preg_match("#^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4}$#", $_POST[$key])) {
+        if (!empty($this->data[$key])) {
+            // if (!preg_match("#^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,4}$#", $this->data[$key])) {
             //     $this->errors[$key] = "email non valide";
             //     $_SESSION[$key] = $this->errors[$key];
             // }
 
-            if (!filter_var($_POST[$key], FILTER_VALIDATE_EMAIL)) {
+            if (!filter_var($this->data[$key], FILTER_VALIDATE_EMAIL)) {
                 $this->errors[$key] = "email non valide";
             }
         }
@@ -117,8 +118,8 @@ class Validator {
 
     public function telephone($key)
     {
-        if (!empty($_POST[$key])) {
-            if (!preg_match("#^0[67]([ .-]?[0-9]{2}){4}$#", $_POST[$key])) {// 0611223344 06 11 22 33 44 06-11-22-33-44
+        if (!empty($this->data[$key])) {
+            if (!preg_match("#^0[67]([ .-]?[0-9]{2}){4}$#", $this->data[$key])) {// 0611223344 06 11 22 33 44 06-11-22-33-44
                 $this->errors[$key] = "telephone non valide";
             }
         }
@@ -126,9 +127,9 @@ class Validator {
 
     public function confirmation($key)
     {
-        if (!empty($_POST[$key])) {
-            // $_POST[$key]  == $_POST[$key . '-confirm']
-            if ($_POST[$key] !== $_POST[$key . '-confirm']) {
+        if (!empty($this->data[$key])) {
+            // $this->data[$key]  == $this->data[$key . '-confirm']
+            if ($this->data[$key] !== $this->data[$key . '-confirm']) {
                 $this->errors[$key] = "Les champs " . $key . " et " . $key . "-confirmation ne correspondent pas!";
             }
         }
@@ -136,8 +137,8 @@ class Validator {
 
     public function url($key)
     {
-        if (!empty($_POST[$key])) {
-            if (!filter_var($_POST[$key], FILTER_VALIDATE_URL)) {
+        if (!empty($this->data[$key])) {
+            if (!filter_var($this->data[$key], FILTER_VALIDATE_URL)) {
                 $this->errors[$key] = "url non valide";
             }
         }

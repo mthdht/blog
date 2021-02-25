@@ -27,4 +27,9 @@ class Request
     {
         return isset($_POST[$key]) ? true : false;
     }
+
+    public static function inputs()
+    {
+        return $_POST;
+    }
 }

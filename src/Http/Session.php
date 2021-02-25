@@ -14,13 +14,13 @@ class Session
         // return false;
 
         // écriture ternaire
-        return isset($_SESSION['user']) ? true : false;
+        return isset($_SESSION[$key]) ? true : false;
     }
 
     public static function get($key)
     {
-        // if ($this->has($key)) {
-        //     return $this->session[$key];
+        // if (self::has($key)) {
+        //     return $_SESSION[$key];
         // }
 
         return self::has($key) ? unserialize($_SESSION[$key]) : '';
@@ -34,5 +34,13 @@ class Session
     public static function delete($key)
     {
         unset($_SESSION[$key]);
+    }
+
+    public static function getError($key)
+    {
+        if(isset($_SESSION["errors"])) {
+            $errors = unserialize($_SESSION["errors"]);
+            return $errors[$key];
+        }
     }
 }

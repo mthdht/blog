@@ -41,7 +41,20 @@ class AuthController
     public function register()
     {
         // TODO: valider le formulaire
+        $validator = new Validator();
+        $validator->validate([
+            "pseudo" => ['required','alphaNumDash', "min" => 2],
+            "email" => ["required", "email"]
+        ], Request::inputs());
 
+        // erreurs ?
+        if ($validator->hasErrors()) {
+            // enregistre en session
+            Session::set('errors', $validator->getErrors());
+            // redirige
+            header('Location: /register');
+            exit();
+        }
         
         // enregistrement en bdd
         $user = new \Blog\Models\User($_POST);
@@ -49,9 +62,10 @@ class AuthController
 
         // Vérifie si l'utilisateur existe déja en base de donnée
         if ($manager->exists(Request::input('email'))) {
-            // TODO: Rediriger avec les erreurs
-            echo 'l\'utilisateur existe deja';
-            return;
+            Session::set('errors', ["email" => "L'utilisateur existe déja !"]);
+            // redirige
+            header('Location: /register');
+            exit();
         }
         $manager->save($user);
         // TODO: message positif en session
