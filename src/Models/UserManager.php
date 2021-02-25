@@ -19,7 +19,7 @@ class UserManager
         $request->execute([
             "pseudo" => $user->getPseudo(),
             "email" => $user->getEmail(),
-            "password" => $user->getPassword()
+            "password" => password_hash($user->getPassword(), PASSWORD_DEFAULT)
         ]);
     }
 
@@ -35,16 +35,16 @@ class UserManager
         return $request->fetch() ? true : false;
     }
 
-    public function getForLogin($email, $password)
+    public function getForLogin($email)
     {
-        $request = $this->pdo->prepare("SELECT * FROM user WHERE email = :toto and password = :tata;");
+        $request = $this->pdo->prepare("SELECT * FROM user WHERE email = :email;");
 
         $request->execute([
-            "toto" => $email,
-            "tata" => $password
+            "email" => $email,
         ]);
 
         // récupere le résultat de la requète
-        return $request->fetch(\PDO::FETCH_ASSOC); // method de récupération
+        $request->setFetchMode(\PDO::FETCH_CLASS, \Blog\Models\User::class);
+        return $request->fetch(); // method de récupération
     }
 }

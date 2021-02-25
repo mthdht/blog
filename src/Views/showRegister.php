@@ -11,17 +11,17 @@
 
     <form action="/register" method="post">
         <label for="pseudo">Pseudo</label>
-        <input type="text" name="pseudo" id="pseudo">
+        <input type="text" name="pseudo" id="pseudo" value="">
 
         <br>
 
         <label for="email">email</label>
-        <input type="text" name="email" id="email">
+        <input type="text" name="email" id="email" value="">
 
         <br>
 
         <label for="password">password</label>
-        <input type="password" name="password" id="password">
+        <input type="password" name="password" id="password" value="">
 
         <br>
 

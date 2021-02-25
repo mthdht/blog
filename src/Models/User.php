@@ -4,15 +4,19 @@ namespace Blog\Models;
 
 class User
 {
+    private $id;
     private $pseudo;
     private $email;
     private $password;
 
-    public function __construct($post)
+    public function __construct(Array $data= [])
     {
-        $this->pseudo = $post['pseudo'];
-        $this->email = $post['email'];
-        $this->password = $post['password'];
+        if ($data) {
+            $this->id = isset($data['id']) ? $data['id'] : null;
+            $this->pseudo = $data['pseudo'];
+            $this->email = $data['email'];
+            $this->password = $data['password'];
+        }
     }
 
 

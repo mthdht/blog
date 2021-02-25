@@ -4,6 +4,7 @@ namespace Blog\Controllers;
 
 use Blog\Http\Session;
 use Blog\Http\Request;
+use Blog\Http\Validator;
 
 class AuthController
 {
@@ -17,13 +18,16 @@ class AuthController
         // verifier que l'utilisateur existe avec bonne données
         $manager = new \Blog\Models\UserManager();
     
-        // user avec meme email et mdp
-        $user = $manager->getForLogin(Request::input('email'), Request::input('password')); // tableau avec les donnée, soit false
+        // user avec meme email
+        $user = $manager->getForLogin(Request::input('email')); // tableau avec les donnée, soit false
 
         if($user) {
-            Session::set('user', $user);
-            header("Location: profile");
-            exit();
+            // verifier que les mot de passe sont égaux
+            if (password_verify(Request::input('password'), $user->getPassword('password'))) {
+                Session::set('user', $user);
+                header("Location: profile");
+                exit();
+            }
         }
         // erreur en session
         // redirige
@@ -38,9 +42,9 @@ class AuthController
     {
         // TODO: valider le formulaire
 
+        
         // enregistrement en bdd
         $user = new \Blog\Models\User($_POST);
-
         $manager = new \Blog\Models\UserManager();
 
         // Vérifie si l'utilisateur existe déja en base de donnée

@@ -9,3 +9,8 @@ function dump($a)
 }
 
 
+function dd($a)
+{
+    dump($a);
+    die();
+}
