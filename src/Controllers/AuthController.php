@@ -97,4 +97,13 @@ class AuthController extends Controller
         header('Location: /');
         exit();
     }
+
+
+    public function showArticle($article, $comment = '')
+    {
+        dump($article);
+        dump($comment);
+        
+        echo "page d'un article";
+    }
 }

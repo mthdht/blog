@@ -2,10 +2,13 @@
 
 namespace Blog\Routing;
 
+use Blog\Http\Request;
+
 class Route
 {
     private $path;
     private $handler;
+    private $matches = [];
 
     public function __construct($path, $handler)
     {
@@ -41,5 +44,27 @@ class Route
     public function getMethod()
     {
         return $this->handler[1];
+    }
+
+    public function handle()
+    {
+        $controllerName = "Blog\\Controllers\\" . $this->getController();
+        $methodName = $this->getMethod();
+        $controller = new $controllerName();
+        // call_user_func([$controller, $methodName], ...$matches); // ["","",""] => "","",""
+        call_user_func_array([$controller, $methodName], $this->matches); // ["","",""] => "","",""
+
+        // $controller->$methodName(); // autre manière de faire
+    }
+
+    public function match()
+    {
+        $pathRegex = preg_replace('#\{[^/]+\}#', '([^/]+)', $this->getPath());
+        $result = preg_match('#^' . $pathRegex . '$#', Request::uri(), $matches);
+
+        array_shift($matches);
+        $this->matches = $matches;
+        
+        return $result;
     }
 }
