@@ -10,7 +10,8 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
-        $this->view('auth/showLogin', 'layout');
+        $data = ["tout va bien"];
+        $this->view('auth/showLogin', 'layout', $data);
     }
 
     public function login()
@@ -103,7 +104,7 @@ class AuthController extends Controller
     {
         dump($article);
         dump($comment);
-        
+
         echo "page d'un article";
     }
 }

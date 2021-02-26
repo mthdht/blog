@@ -38,6 +38,8 @@ class Router
             // TODO: Gérer les paramètres
             if ($route->match()) {
                 $route->handle();
+                unset($_SESSION['errors']);
+                unset($_SESSION['old']);
                 die();
             }
         }

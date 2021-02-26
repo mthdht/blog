@@ -2,7 +2,6 @@
 
 <form action="/login" method="post">
 
-    {{ $test }}
     <p>{{ \Blog\Http\Session::getError('fail') }}</p>
     <label for="email">email</label>
     <input type="text" name="email" id="email" value="{{ \Blog\Http\Session::getOld('email') }}">
@@ -11,7 +10,7 @@
 
     <br>
 
-    <?php echo "ok"?>
+    <?php echo "okkk"?>
 
     <label for="password">password</label>
     <input type="password" name="password" id="password" value="{{ \Blog\Http\Session::getOld('password') }}">

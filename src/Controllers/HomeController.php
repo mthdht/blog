@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function profile()
     {
         if (\Blog\Http\Session::has('user')) {
-            require VIEWS . 'profile.php';
+            $this->view('profile', 'layoutAdmin');
         } else {
             header('Location: /');
         }
