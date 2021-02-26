@@ -36,28 +36,12 @@ class Router
         // comparer l'url entrée par l'utilisateur avec tout les chemin de mes routes
         foreach ($this->routes[Request::method()] as $route) {
             // TODO: Gérer les paramètres
-
             if ($route->match()) {
-
-                dd('');
                 $route->handle();
+                die();
             }
-            // est ce que j'ai des parametres ? {erty}
-            // $pathRegex = preg_replace('#\{[^/]+\}#', '([^/]+)', $route->getPath());
-
-            // if(preg_match('#^' . $pathRegex . '$#', Request::uri(), $matches)) {
-            //     // lancer l'action de la route 
-            //     $controllerName = "Blog\\Controllers\\" . $route->getController();
-            //     $methodName = $route->getMethod();
-            //     $controller = new $controllerName();
-            //     array_shift($matches);
-            //     // call_user_func([$controller, $methodName], ...$matches); // ["","",""] => "","",""
-            //     call_user_func_array([$controller, $methodName], $matches); // ["","",""] => "","",""
-
-            //     // $controller->$methodName(); // autre manière de faire
-            // }
-
-            // TODO: 404 ?
         }
+
+        echo 'page non trouvé !';
     }
 }

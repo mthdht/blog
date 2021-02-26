@@ -55,17 +55,12 @@ class Route
         $controller = new $controllerName();
         // call_user_func([$controller, $methodName], ...$matches); // ["","",""] => "","",""
         call_user_func_array([$controller, $methodName], $this->matches); // ["","",""] => "","",""
-
         // $controller->$methodName(); // autre manière de faire
     }
 
     public function match()
     {
-        $pathRegex = preg_replace_callback('#\{([^/]+)\}#', [$this, 'restrictionsRegex'], $this->getPath());
-        // $pathRegex = preg_replace('#\{([^/]+)\}#', '([^/]+)', $this->getPath());
-        
-        $result = preg_match('#^' . $pathRegex . '$#', Request::uri(), $matches);
-
+        $result = preg_match($this->pathRegex(), Request::uri(), $matches);
         array_shift($matches);
         $this->matches = $matches;
 
@@ -74,10 +69,11 @@ class Route
 
     public function restrictionsRegex($captures)
     {
-
-        dump($captures);
         // est ce que il y a une restritions pour $capture[1]
+        if(isset($this->restrictions[$captures[1]])) {
             // return $restrictions
+            return '(' . $this->restrictions[$captures[1]] . ')';
+        }
         // return generique regex
         return '([^/]+)';
     }
@@ -85,7 +81,7 @@ class Route
     public function params(Array $restrictions) :self
     {
         // gerer les restriction des parametre de l'url
-        $this->restrictions = $restrictions;
+        $this->restrictions = str_replace('(', '(?:', $restrictions);
 
         return $this;
     }
@@ -95,5 +91,10 @@ class Route
         // enregistrer un nom pour la route => redirection, création d'url
         $this->name = $name;
         return $this;
+    }
+
+    public function pathRegex()
+    {
+        return '#^'. preg_replace_callback('#\{([^/]+)\}#', [$this, 'restrictionsRegex'], $this->getPath()) . '$#';
     }
 }

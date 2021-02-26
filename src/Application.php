@@ -37,9 +37,9 @@ class Application
         $this->router->get('/logout', ['AuthController', 'logout']);
 
         // route avec parametres
-        $this->router->get('/articles/{article}', ['AuthController', 'showArticle'])->params(["article" => "[0-9]+"])->name('showArticle'); // Test
+        $this->router->get('/articles/{article}', ['AuthController', 'showArticle'])->params(["article" => "([0-9]+)([a-z]+)"])->name('showArticle'); // Test
 
-        $this->router->get('/articles/{article}/commentaires/{comment}', ['AuthController', 'showArticle']);//->params(["article" => "[0-9]+", "comment" => "[a-z]+"]);
+        $this->router->get('/articles/{article}/commentaires/{comment}', ['AuthController', 'showArticle'])->params(["article" => "([0-9]+)([a-z]+)"])->name('showArticle');;
         // executer le router
         $this->router->run();
     }
