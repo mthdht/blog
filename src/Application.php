@@ -28,10 +28,6 @@ class Application
         $this->router->get('/admin',['HomeController', 'homeAdmin']);
         $this->router->get('/profile',['HomeController', 'profile']);
 
-        $this->router->get('/contact',['HomeController', 'showContact']);
-
-        $this->router->post('/contact',['HomeController', 'HandleContact']);
-
         $this->router->get('/login', ['AuthController', 'showLogin']);
         $this->router->post('/login', ['AuthController', 'login']);
         
@@ -40,7 +36,9 @@ class Application
         
         $this->router->get('/logout', ['AuthController', 'logout']);
 
-        
+        // route avec parametres
+        $this->router->get('/articles/{article}', ['ArticleController', 'showArticle']);
+        $this->router->get('/articles/{article}/azerty/{item}', ['ArticleController', 'showArticle']);
         // executer le router
         $this->router->run();
     }

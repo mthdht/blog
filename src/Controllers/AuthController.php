@@ -10,7 +10,7 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
-        $this->view('showLogin', 'layout');
+        $this->view('auth/showLogin', 'layout');
     }
 
     public function login()
@@ -51,7 +51,7 @@ class AuthController extends Controller
 
     public function showRegister()
     {
-        $this->view('showRegister', 'layout');
+        $this->view('auth/showRegister', 'layout');
     }
 
     public function register()

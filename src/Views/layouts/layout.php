@@ -18,7 +18,7 @@
     </header>
 
     <main>
-    <?php echo $content; ?>
+    {{ $content }}
     </main>
 
 
