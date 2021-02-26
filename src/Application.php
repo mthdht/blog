@@ -28,7 +28,7 @@ class Application
         $this->router->get('/admin',['HomeController', 'homeAdmin']);
         $this->router->get('/profile',['HomeController', 'profile']);
 
-        $this->router->get('/login', ['AuthController', 'showLogin']);
+        $this->router->get('/login', ['AuthController', 'showLogin'])->name('login');
         $this->router->post('/login', ['AuthController', 'login']);
         
         $this->router->get('/register', ['AuthController', 'showRegister']);
@@ -37,8 +37,9 @@ class Application
         $this->router->get('/logout', ['AuthController', 'logout']);
 
         // route avec parametres
-        $this->router->get('/articles/{article}', ['AuthController', 'showArticle']);//->params(["article" => "[0-9]+"]);
-        $this->router->get('/articles/{article}/commentaires/{commentaire}', ['AuthController', 'showArticle']);//->params(["article" => "[0-9]+", "commentaire" => "[a-z]+"]);
+        $this->router->get('/articles/{article}', ['AuthController', 'showArticle'])->params(["article" => "[0-9]+"])->name('showArticle'); // Test
+
+        $this->router->get('/articles/{article}/commentaires/{comment}', ['AuthController', 'showArticle']);//->params(["article" => "[0-9]+", "comment" => "[a-z]+"]);
         // executer le router
         $this->router->run();
     }

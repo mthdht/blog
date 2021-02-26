@@ -9,6 +9,8 @@ class Route
     private $path;
     private $handler;
     private $matches = [];
+    private $name;
+    private $restrictions = [];
 
     public function __construct($path, $handler)
     {
@@ -59,12 +61,39 @@ class Route
 
     public function match()
     {
-        $pathRegex = preg_replace('#\{[^/]+\}#', '([^/]+)', $this->getPath());
+        $pathRegex = preg_replace_callback('#\{([^/]+)\}#', [$this, 'restrictionsRegex'], $this->getPath());
+        // $pathRegex = preg_replace('#\{([^/]+)\}#', '([^/]+)', $this->getPath());
+        
         $result = preg_match('#^' . $pathRegex . '$#', Request::uri(), $matches);
 
         array_shift($matches);
         $this->matches = $matches;
-        
+
         return $result;
+    }
+
+    public function restrictionsRegex($captures)
+    {
+
+        dump($captures);
+        // est ce que il y a une restritions pour $capture[1]
+            // return $restrictions
+        // return generique regex
+        return '([^/]+)';
+    }
+
+    public function params(Array $restrictions) :self
+    {
+        // gerer les restriction des parametre de l'url
+        $this->restrictions = $restrictions;
+
+        return $this;
+    }
+
+    public function name(String $name) :self
+    {
+        // enregistrer un nom pour la route => redirection, création d'url
+        $this->name = $name;
+        return $this;
     }
 }

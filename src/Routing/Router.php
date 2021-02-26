@@ -18,6 +18,8 @@ class Router
         $route = new Route($path, $handler);
         // enregistrer cette route dans le tableau de route
         $this->routes["GET"][] = $route;
+
+        return $route;
     }
 
     public function post($path, $handler)
@@ -36,6 +38,8 @@ class Router
             // TODO: Gérer les paramètres
 
             if ($route->match()) {
+
+                dd('');
                 $route->handle();
             }
             // est ce que j'ai des parametres ? {erty}
