@@ -15,7 +15,7 @@ class ArticleManager
 
     public function save($article)
     {
-        $request = $this->pdo->prepare('INSERT INTO article (title, slug, content) VALUES (:title, :slug, :content, NOW(), NOW());');
+        $request = $this->pdo->prepare('INSERT INTO article (title, slug, content, creation_date, updated_date) VALUES (:title, :slug, :content, NOW(), NOW());');
 
         return $request->execute([
             "title" => $article->title(),
@@ -35,9 +35,9 @@ class ArticleManager
 
     public function update($article, $oldSlug)
     {
-        $request = $this->pdo->prepare('UPDATE article SET title = :title, slug = :slug, content = :content, updated_date = NOW() WHERE slug = :oldSlug');
+        $request = $this->pdo->prepare('UPDATE article SET title = :title, slug = :slug, content = :content, updated_date = NOW() WHERE slug = :oldSlug;');
 
-        return $request->execute([
+        return  $request->execute([
             'title' => $article->title(),
             "slug" => $article->slug(),
             "content" => $article->content(),
@@ -47,11 +47,21 @@ class ArticleManager
 
     public function all()
     {
+        $request = $this->pdo->query("SELECT * FROM article;");
+        $request->setFetchMode(\PDO::FETCH_CLASS, \Blog\Models\Article::class);
+        return $request->fetchAll();
         
     }
-
+    
     public function get($slug)
     {
+        $request = $this->pdo->prepare("SELECT * FROM article WHERE slug = :slug;");
         
+        $request->execute([
+            "slug" => $slug
+            ]);
+            
+        $request->setFetchMode(\PDO::FETCH_CLASS, \Blog\Models\Article::class);
+        return $request->fetch();
     }
 }

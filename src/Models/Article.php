@@ -3,6 +3,16 @@ namespace Blog\Models;
 
 class Article
 {
+
+    public function __construct(Array $data= [])
+    {
+        if ($data) {
+            $this->id = isset($data['id']) ? $data['id'] : null;
+            $this->title = $data['title'];
+            $this->slug = $data['slug'];
+            $this->content = $data['content'];
+        }
+    }
     // atributs
     private $title;
     private $slug;
@@ -20,7 +30,7 @@ class Article
     }
 
     public function title()
-    {
+    { 
         return $this->title;
     }
 

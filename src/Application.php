@@ -35,11 +35,20 @@ class Application
         $this->router->post('/register', ['AuthController', 'register']);
         
         $this->router->get('/logout', ['AuthController', 'logout']);
-
-        // route avec parametres
-        $this->router->get('/articles/{article}', ['AuthController', 'showArticle'])->params(["article" => "([0-9]+)([a-z]+)"])->name('showArticle'); // Test
-
-        $this->router->get('/articles/{article}/commentaires/{comment}', ['AuthController', 'showArticle'])->params(["article" => "([0-9]+)([a-z]+)"])->name('showArticle');;
+        
+        // route pour articles
+        $this->router->get('/articles', ['ArticleController', 'index']);
+        $this->router->get('/articles/nouveau', ['ArticleController', 'create']);
+        $this->router->post('/articles/nouveau', ['ArticleController', 'store']);
+        $this->router->get('/articles/{slug}', ['ArticleController', 'show']);
+        $this->router->post('/articles/{slug}', ['ArticleController', 'destroy']);
+        $this->router->get('/articles/{slug}/edit', ['ArticleController', 'edit']);
+        $this->router->post('/articles/{slug}/edit', ['ArticleController', 'update']);
+        
+        
+        
+        
+        
         // executer le router
         $this->router->run();
     }
