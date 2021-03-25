@@ -8,7 +8,7 @@ class UserManager
 
     public function __construct()
     {
-        $this->pdo = new \PDO('mysql:host=localhost;dbname=blog', 'root', '');
+        $this->pdo = new \PDO('mysql:host=localhost;dbname=blog', 'root', 'root');
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
 
